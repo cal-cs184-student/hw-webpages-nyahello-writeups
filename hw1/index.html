@@ -92,11 +92,11 @@
 		<h2>Task 2: Antialiasing by Supersampling</h2>
 		<h3>Supersampling Data Structure and Algorithm</h3>
 		<p>
-			First, we recalculated the left and right bound, and top and bottom bound for buffer space by multiplying the original bounds by square root of sample rate to reform the space as the new super sampled space. Then we loop through every single point in the super sampling buffer space and assign color based on a similar point in the image. Lastly, we go through every point in the target frame buffer and assign the color based on the average of the colors of the corresponding pixels from the supersampled frame buffer in <em>resolve_to_framebuffer</em>.
+			&emsp;First, we recalculated the left and right bound, and top and bottom bound for buffer space by multiplying the original bounds by square root of sample rate to reform the space as the new super sampled space. Then we loop through every single point in the super sampling buffer space and assign color based on a similar point in the image. Lastly, we go through every point in the target frame buffer and assign the color based on the average of the colors of the corresponding pixels from the supersampled frame buffer in <em>resolve_to_framebuffer</em>.
 		</p>
 		<h3>Why is supersampling useful and modifications for Antialiasing</h3>
 		<p>
-			Supersampling is useful because for the pixels on the edges, supersampling can reduce jaggies through averaging the colors surrounding pixels, blurring the edges while also antialiasing ambiguous edges of the triangle.
+			&emsp;Supersampling is useful because for the pixels on the edges, supersampling can reduce jaggies through averaging the colors surrounding pixels, blurring the edges while also antialiasing ambiguous edges of the triangle.
 		</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
@@ -118,17 +118,64 @@
 		</div>
 
 		<h2>Task 3: Transforms</h2>
-		For this task, we made Mr.Robot wave at the screen. This involved adding a new transform and a rotation to the second segment of the left arm as well as to both sections of the right arm.
+		&emsp;For this task, we made Mr.Robot wave at the screen. This involved adding a new transform and a rotation to the second segment of the left arm as well as to both sections of the right arm.
 		<figure>
 			<img src="./images/task3.png" alt="task 3" style="width:50%"/>
 			<figcaption><em> Mr.Robot waves hi</em></figcaption>
 		</figure>
 
 		<h2>Task 4: Barycentric coordinates</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		&emsp;Barycentric coordinates represent a point in a triangle by using the weighted sum of the triangle’s vertices. Instead of the traditional global coordinates x and y, we have alpha, beta, and gamma to represent the location of a point within the triangle. Each one of the alpha, beta, and gamma will be the amount of weight its corresponding vertex will have on formation of the point we are interested in.
+		<figure>
+			<img src="./images/task4.png" alt="Blended triangle" style="width:50%"/>
+			<figcaption><em>A blended triangle using barycentric coordinates</em></figcaption>
+		</figure>
+
+		<figure>
+			<img src="./images/task4_test7.png" alt="basic test 7" style="width:50%"/>
+			<figcaption><em>basic/test7.svg</em></figcaption>
+		</figure>
 
 		<h2>Task 5: "Pixel sampling" for texture mapping</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<p>
+			&emsp;Pixel sampling is a technique used to map pixels from textures to the screen. In order to map a texture on a surface, we need to compute the barycentric coordinates for each pixel and grab the corresponding one from the texture. However, sometimes the coordinates don’t line up properly due to the screen having a different topology than the texture. This results in the need for nearest neighbor sampling and bilinear sampling to find the appropriate pixel from the texture.
+		</p>
+		<p>
+			&emsp;Nearest neighbor sampling is a pixel sampling technique that is implemented by finding the nearest integer texel coordinate to the given barycentric coordinate. Bilinear sampling instead uses linear interpolation to get an average between the four nearest texels.
+		</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./images/task5_sample_rate_1_nearest.png" width="400px"/>
+				  <figcaption>Nearest neighbor at sample rate 1</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./images/task5_sample_rate_1_bilinear.png" width="400px"/>
+				  <figcaption>Bilinear at sample rate 1</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./images/task5_sample_rate_16_nearest.png" width="400px"/>
+				  <figcaption>Nearest neighbor at sample rate 16</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./images/task5_sample_rate_16_bilinear.png" width="400px"/>
+				  <figcaption>Bilinear at sample rate 16</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<p>
+			&emsp;In general, bilinear seems to produce a smoother transition on the edge than nearest neighbor does. The difference is more drastic when the sampling rate is low (sample rate 1 for example). In the above screenshots where sample rate is 1, nearest neighbor produces aliased and jagged edges, while bilinear sampling produced edges are more smoothed over.
+		</p>
+		<p>
+			&emsp;When comparing a sampling rate of 1 to higher supersampled rates, the difference between bilinear and nearest neighbor is less obvious in low sampling rates because there’s no additional blending/smoothing effects that are included in supersampling. As the supersampling rate goes up, both bilinear and nearest neighbor have smoother results.
+		</p>
+
 
 		<h2>Task 6: "Level Sampling" with mipmaps for texture mapping</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
