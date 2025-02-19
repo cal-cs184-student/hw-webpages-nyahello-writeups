@@ -32,15 +32,15 @@
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to webpage: <a href="https://cal-cs184-student.github.io/hw-webpages-nyahello-writeups/hw1/index.html">Nyahello!</a>
 		
 		<br>
 
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to GitHub repository: <a href="https://github.com/cal-cs184-student/sp25-hw1-nyahello">Nyahello!</a>
 
 		<figure>
 			<img src="lion.jpg" alt="Lion" style="width:50%"/>
-			<figcaption>You can add images with captions!</figcaption>
+			<figcaption>Homework 1: Rasterizer</figcaption>
 		</figure>
 
 		<!--
@@ -48,10 +48,15 @@
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		&emsp; In this assignment, we built a basic rasterizer that covers different sampling frequencies and sampling techniques to learn how images are drawn to the screen. Some interesting problems that came up included transforming between different spaces and using interpolation to approximate points and more!
 
 		<h2>Task 1: Drawing Single-Color Triangles</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<p>
+			&emsp; We implemented rasterizing a triangle by looking for the edges of the triangle and going through each pixel within the bounding box that surrounds that triangle and testing if that point is within the triangle using the line test. If the point was within the triangle described by the input coordinates, we called rasterize on that point. If the point wasn’t within the triangle, then we just moved onto a different point. Each point represented the center of the pixel that we were rasterizing.
+		</p>
+		<p>
+			&emsp; We guaranteed that the algorithm was no worse than checking each sample within the bounding box of the triangle by checking for which points had the highest/lowest coordinates in both the x and y axis. We set those values as the loop limit for our double for-loop so it would loop only through the bounding box defined by those coordinate points.
+		</p>
 
 		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
