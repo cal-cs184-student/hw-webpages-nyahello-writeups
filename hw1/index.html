@@ -28,7 +28,7 @@
 	<body>
 		<div class="container">
 		<h1>CS184/284A Spring 2025 Homework 1 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+		<div style="text-align: center;">Names: Jennifer Cao, Claire Ding</div>
 
 		<br>
 
@@ -52,7 +52,7 @@
 
 		<h2>Task 1: Drawing Single-Color Triangles</h2>
 		<p>
-			&emsp; We implemented rasterizing a triangle by looking for the edges of the triangle and going through each pixel within the bounding box that surrounds that triangle and testing if that point is within the triangle using the line test. If the point was within the triangle described by the input coordinates, we called rasterize on that point. If the point wasn’t within the triangle, then we just moved onto a different point. Each point represented the center of the pixel that we were rasterizing.
+			&emsp; We implemented rasterizing a triangle by looking for the edges of the triangle and going through each pixel within the bounding box that surrounds that triangle and testing if that point is within the triangle using the line test. If the point was within the triangle described by the input coordinates, we called rasterize on that point. If the point was not within the triangle, then we just moved onto a different point. Each point represented the center of the pixel that we were rasterizing.
 		</p>
 		<p>
 			&emsp; We guaranteed that the algorithm was no worse than checking each sample within the bounding box of the triangle by checking for which points had the highest/lowest coordinates in both the x and y axis. We set those values as the loop limit for our double for-loop so it would loop only through the bounding box defined by those coordinate points.
@@ -125,7 +125,7 @@
 		</figure>
 
 		<h2>Task 4: Barycentric coordinates</h2>
-		&emsp;Barycentric coordinates represent a point in a triangle by using the weighted sum of the triangle’s vertices. Instead of the traditional global coordinates x and y, we have alpha, beta, and gamma to represent the location of a point within the triangle. Each one of the alpha, beta, and gamma will be the amount of weight its corresponding vertex will have on formation of the point we are interested in.
+		&emsp;Barycentric coordinates represent a point in a triangle by using the weighted sum of the triangle vertices. Instead of the traditional global coordinates x and y, we have alpha, beta, and gamma to represent the location of a point within the triangle. Each one of the alpha, beta, and gamma will be the amount of weight its corresponding vertex will have on formation of the point we are interested in.
 		<figure>
 			<img src="./images/task4.png" alt="Blended triangle" style="width:50%"/>
 			<figcaption><em>A blended triangle using barycentric coordinates</em></figcaption>
@@ -138,7 +138,7 @@
 
 		<h2>Task 5: "Pixel sampling" for texture mapping</h2>
 		<p>
-			&emsp;Pixel sampling is a technique used to map pixels from textures to the screen. In order to map a texture on a surface, we need to compute the barycentric coordinates for each pixel and grab the corresponding one from the texture. However, sometimes the coordinates don’t line up properly due to the screen having a different topology than the texture. This results in the need for nearest neighbor sampling and bilinear sampling to find the appropriate pixel from the texture.
+			&emsp;Pixel sampling is a technique used to map pixels from textures to the screen. In order to map a texture on a surface, we need to compute the barycentric coordinates for each pixel and grab the corresponding one from the texture. However, sometimes the coordinates do not line up properly due to the screen having a different topology than the texture. This results in the need for nearest neighbor sampling and bilinear sampling to find the appropriate pixel from the texture.
 		</p>
 		<p>
 			&emsp;Nearest neighbor sampling is a pixel sampling technique that is implemented by finding the nearest integer texel coordinate to the given barycentric coordinate. Bilinear sampling instead uses linear interpolation to get an average between the four nearest texels.
@@ -173,7 +173,7 @@
 			&emsp;In general, bilinear seems to produce a smoother transition on the edge than nearest neighbor does. The difference is more drastic when the sampling rate is low (sample rate 1 for example). In the above screenshots where sample rate is 1, nearest neighbor produces aliased and jagged edges, while bilinear sampling produced edges are more smoothed over.
 		</p>
 		<p>
-			&emsp;When comparing a sampling rate of 1 to higher supersampled rates, the difference between bilinear and nearest neighbor is less obvious in low sampling rates because there’s no additional blending/smoothing effects that are included in supersampling. As the supersampling rate goes up, both bilinear and nearest neighbor have smoother results.
+			&emsp;When comparing a sampling rate of 1 to higher supersampled rates, the difference between bilinear and nearest neighbor is less obvious in low sampling rates because there is no additional blending/smoothing effects that are included in supersampling. As the supersampling rate goes up, both bilinear and nearest neighbor have smoother results.
 		</p>
 
 
@@ -182,6 +182,30 @@
 		<p>
 			&emsp;Level sampling is the idea that as objects in the screen are closer or further from the viewer, they should get sampled at different resolutions since details naturally fade out as distance increases.
 		</p>
+			<div style="display: flex; flex-direction: column; align-items: center;">
+				<table style="width: 100%; text-align: center; border-collapse: collapse;">
+					<tr>
+						<td style="text-align: center;">
+							<img src="./images/task6_l_zero_p_nearest.png" width="400px"/>
+							<figcaption>L_zero and P_nearest</figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="./images/task6_l_zero_p_linear.png" width="400px"/>
+							<figcaption>L_zero and P_linear</figcaption>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: center;">
+							<img src="./images/task6_l_nearest_p_nearest.png" width="400px"/>
+							<figcaption>L_nearest and P_nearest</figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="./images/task6_l_nearest_p_linear.png" width="400px"/>
+							<figcaption>L_nearest and P_linear</figcaption>
+						</td>
+					</tr>
+				</table>
+			</div>
 		<h3>Implementation</h3>
 		<p>
 			&emsp;We implemented level sampling by getting the level that a point seems to be at through barycentric coordinates and comparing with points that have a slight variation. Nearest level sampling just rounds the level we get through the equation presented in lecture to the nearest integer. 
@@ -190,7 +214,7 @@
 		</p>
 		<h3>Antialiasing quality and tradeoffs</h3>
 		<p>
-			&emsp;In general, pixel sampling methods should be the fastest since it mainly does coordinate transforms without adding more pixels (a max of 4 if using bilinear which makes it take about as much time as increasing the supersample rate to 4). It also uses the least amount of memory since it uses just the original texture and doesn’t require new objects to be created. However, these benefits tradeoff into a generally worse ability to antialias when compared to supersampling and level sampling.
+			&emsp;In general, pixel sampling methods should be the fastest since it mainly does coordinate transforms without adding more pixels (a max of 4 if using bilinear which makes it take about as much time as increasing the supersample rate to 4). It also uses the least amount of memory since it uses just the original texture and does not require new objects to be created. However, these benefits tradeoff into a generally worse ability to antialias when compared to supersampling and level sampling.
 			<br>
 			&emsp;Level sampling is a little bit slower than pixel sampling because it needs to estimate a level and may need to sample from two different textures but the biggest difference is that it requires more memory since it needs to create new mipmaps for the different level resolutions. That being said, it results in a better image than pixel sampling. 
 			<br>
@@ -199,16 +223,6 @@
 
 		<h2>(Optional) Task 7: Extra Credit - Draw Something Creative!</h2>
 		We didn't do it &#128542
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
 		</div>
 	</body>
 </html>
