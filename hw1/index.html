@@ -58,7 +58,12 @@
 			&emsp; We guaranteed that the algorithm was no worse than checking each sample within the bounding box of the triangle by checking for which points had the highest/lowest coordinates in both the x and y axis. We set those values as the loop limit for our double for-loop so it would loop only through the bounding box defined by those coordinate points.
 		</p>
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+		<figure>
+			<img src="./images/task1.png" alt="task 1" style="width:50%"/>
+			<figcaption><em>basic/test4.svg</em></figcaption>
+		</figure>
+
+		<!-- <p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
@@ -82,13 +87,42 @@
 				</td>
 			  </tr>
 			</table>
-		</div>
+		</div> -->
 		
 		<h2>Task 2: Antialiasing by Supersampling</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<h3>Supersampling Data Structure and Algorithm</h3>
+		<p>
+			First, we recalculated the left and right bound, and top and bottom bound for buffer space by multiplying the original bounds by square root of sample rate to reform the space as the new super sampled space. Then we loop through every single point in the super sampling buffer space and assign color based on a similar point in the image. Lastly, we go through every point in the target frame buffer and assign the color based on the average of the colors of the corresponding pixels from the supersampled frame buffer in <em>resolve_to_framebuffer</em>.
+		</p>
+		<h3>Why is supersampling useful and modifications for Antialiasing</h3>
+		<p>
+			Supersampling is useful because for the pixels on the edges, supersampling can reduce jaggies through averaging the colors surrounding pixels, blurring the edges while also antialiasing ambiguous edges of the triangle.
+		</p>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./images/task2_sample_rate_1.png" width="300px"/>
+				  <figcaption>Sample Rate 1</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./images/task2_sample_rate_4.png" width="300px"/>
+				  <figcaption>Sample Rate 4</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="./images/task2_sample_rate_16.png" width="300px"/>
+					<figcaption>Sample Rate 16</figcaption>
+				  </td>
+			  </tr>
+			</table>
+		</div>
 
 		<h2>Task 3: Transforms</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		For this task, we made Mr.Robot wave at the screen. This involved adding a new transform and a rotation to the second segment of the left arm as well as to both sections of the right arm.
+		<figure>
+			<img src="./images/task3.png" alt="task 3" style="width:50%"/>
+			<figcaption><em> Mr.Robot waves hi</em></figcaption>
+		</figure>
 
 		<h2>Task 4: Barycentric coordinates</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
