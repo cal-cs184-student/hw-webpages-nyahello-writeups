@@ -178,11 +178,27 @@
 
 
 		<h2>Task 6: "Level Sampling" with mipmaps for texture mapping</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<h3>What is level sampling</h3>
+		<p>
+			&emsp;Level sampling is the idea that as objects in the screen are closer or further from the viewer, they should get sampled at different resolutions since details naturally fade out as distance increases.
+		</p>
+		<h3>Implementation</h3>
+		<p>
+			&emsp;We implemented level sampling by getting the level that a point seems to be at through barycentric coordinates and comparing with points that have a slight variation. Nearest level sampling just rounds the level we get through the equation presented in lecture to the nearest integer. 
+			<br>
+			&emsp;The other pixel sampling techniques are applied on top using the texture at the approximated level. For linear sampling however, we had to get the level as a continuous number and average between the pixels in the upper and lower levels based on how close the actual level was to the upper and lower level.
+		</p>
+		<h3>Antialiasing quality and tradeoffs</h3>
+		<p>
+			&emsp;In general, pixel sampling methods should be the fastest since it mainly does coordinate transforms without adding more pixels (a max of 4 if using bilinear which makes it take about as much time as increasing the supersample rate to 4). It also uses the least amount of memory since it uses just the original texture and doesn’t require new objects to be created. However, these benefits tradeoff into a generally worse ability to antialias when compared to supersampling and level sampling.
+			<br>
+			&emsp;Level sampling is a little bit slower than pixel sampling because it needs to estimate a level and may need to sample from two different textures but the biggest difference is that it requires more memory since it needs to create new mipmaps for the different level resolutions. That being said, it results in a better image than pixel sampling. 
+			<br>
+			&emsp;The slowest and most memory costly method is supersampling because it somewhat increases the size of the final output as an intermediate step but because of this, it is able to produce the best antialiased results.
+		</p>
 
 		<h2>(Optional) Task 7: Extra Credit - Draw Something Creative!</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
+		We didn't do it &#128542
 		<h2>Additional Notes (please remove)</h2>
 		<ul>
 			<li>You can also add code if you'd like as so: <code>code code code</code></li>
