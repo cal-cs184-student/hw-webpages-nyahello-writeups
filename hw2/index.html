@@ -87,30 +87,63 @@
 		<h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
 
 		<h3>Part 3: Area-weighted vertex normals</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		To compute area-weighted normal of a given vertex, I first retrieved the half-edge structure of the given vertex so we can iterate through faces adjacent to the vertex. Then, for each face, we find the thre vertex positions of the given face, compute the normal vector by cross product two vectors, and compute the area of the triangle. Then, we normalize the normal vector by the area. Finally, I normalize the sum of all area-weighted normals.
 
+			<div style="display: flex; flex-direction: column; align-items: center;">
+				<table style="width: 100%; text-align: center; border-collapse: collapse;">
+					<tr>
+						<td style="text-align: center;">
+							<img src="images/part3_1.png" width="400px"/>
+							<figcaption>Teapot shading without vertex normal</figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part3_2.png" width="400px"/>
+							<figcaption>Teapot shading with vertex normal </figcaption>
+						</td>
+					</tr>
+				</table>
+			</div>
 		<h3>Part 4: Edge flip</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
+		To implement edge flip function, first we check if the given edge is a boundary edge; if so, returns immediately. For each qualified non-bounary edge, we retriece it ten half edges, four vertices, two faces, and four edges. Then, we update face, halfedges, and vertices correspondingly. I found it very useful to draw out an example with labeled vertices, halfedges, edges, and faces to visualize the changes being done in flip edges.
+			<div style="display: flex; flex-direction: column; align-items: center;">
+				<table style="width: 100%; text-align: center; border-collapse: collapse;">
+					<tr>
+						<td style="text-align: center;">
+							<img src="images/part4_1.png" width="400px"/>
+							<figcaption>Before flip</figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part4_2.png" width="400px"/>
+							<figcaption>After flip </figcaption>
+						</td>
+					</tr>
+				</table>
+			</div>
 		<h3>Part 5: Edge split</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
+		Edge split is implemented by retrieving all the corresponding half edges, edges, and vertices. Then, we create new half edges(6), edges(3), vertices(1), and faces(2). We compute the position of the midpoint vertex by taking average of the vertex positions of the original edge. Then we update the half edge of verticies and faces and update half edges accordingly. At the end, we set the two newly created edges that are not on the direction of the original edge to new for part six. Like previous part, we found that by drawing out a specific example helps with understanding the concept and debugging our solution.
+		<div style="display: flex; flex-direction: column; align-items: center;">
+				<table style="width: 100%; text-align: center; border-collapse: collapse;">
+					<tr>
+						<td style="text-align: center;">
+							<img src="images/part5_original.png" width="400px"/>
+							<figcaption>Before split</figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part5_split.png" width="400px"/>
+							<figcaption>After split </figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part5_split_flip.png" width="400px"/>
+							<figcaption>After split and flip </figcaption>
+						</td>
+					</tr>
+				</table>
+			</div>
 		<h3>Part 6: Loop subdivision for mesh upsampling</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		To implement loop subdivision, we need to first, compute new positions for all the vertices in the input mesh, using the Loop subdivision rule. The position of a new vertex U: 3/16 if n = 3, 3/(8n) otherwise. and store them in Vertex::newPosition. The updated version of an old vertex is: (1 - n * u) * original_position + u * original_neighbor_position_sum. We also mark each vertex that we loop through (the original vertex from the mesh) as old (isNew = false). Then we loop through edges and compute updated position of edges and store them in Edges::newPosition. If it's a boundary edge, the position is the average of two vertex positions, otherwise, it's computed by this formula: 3.0/8 * (a + b) + 1.0/8 * (c + d). Then, we iterate through the edges in the original mesh, setting their isNew to false and perform split edges. We set the midpoint created by split edge to new. Finally, we flip any edge that's connected by and old and new vertex. Finall, we copy over all the new vertex position to final Vertex::position
 
-		<h2>(Optional) Section III: Potential Extra Credit - Art Competition: Model something Creative</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		During loop division, edges and corners are rounded. So in the example of the cube, we can see the cube has lost its six sides and looks more like a sphere. When we re-split the edge before perform loop subdivision,
 
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
 		</div>
 	</body>
 </html>
