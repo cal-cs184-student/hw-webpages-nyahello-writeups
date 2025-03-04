@@ -142,7 +142,89 @@
 		<h3>Part 6: Loop subdivision for mesh upsampling</h3>
 		To implement loop subdivision, we need to first, compute new positions for all the vertices in the input mesh, using the Loop subdivision rule. The position of a new vertex U: 3/16 if n = 3, 3/(8n) otherwise. and store them in Vertex::newPosition. The updated version of an old vertex is: (1 - n * u) * original_position + u * original_neighbor_position_sum. We also mark each vertex that we loop through (the original vertex from the mesh) as old (isNew = false). Then we loop through edges and compute updated position of edges and store them in Edges::newPosition. If it's a boundary edge, the position is the average of two vertex positions, otherwise, it's computed by this formula: 3.0/8 * (a + b) + 1.0/8 * (c + d). Then, we iterate through the edges in the original mesh, setting their isNew to false and perform split edges. We set the midpoint created by split edge to new. Finally, we flip any edge that's connected by and old and new vertex. Finall, we copy over all the new vertex position to final Vertex::position
 
-		During loop division, edges and corners are rounded. So in the example of the cube, we can see the cube has lost its six sides and looks more like a sphere. When we re-split the edge before perform loop subdivision,
+		During loop division, edges and corners are rounded. So in the example of the cube, we can see the cube has lost its six sides and looks more like a sphere. When we re-split the edge before perform loop subdivision,it adds edges to cube's edges and corner so when it performs subdivision loop, it helps keep the edge structure and reduces the rounding effects.
+			<div style="display: flex; flex-direction: column; align-items: center;">
+				<table style="width: 100%; text-align: center; border-collapse: collapse;">
+					<tr>
+						<td style="text-align: center;">
+							<img src="images/part6_original_cube.png" width="400px"/>
+							<figcaption>Original cube </figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part6_cube_loop.png" width="400px"/>
+							<figcaption>Cube with one iteration of loop subdivision </figcaption>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: center;">
+							<img src="images/part6_cube_split.png" width="400px"/>
+							<figcaption>Split edges at the edge</figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part6_cube_split_loop.png" width="400px"/>
+							<figcaption>Cube subdivision loop after split edges</figcaption>
+						</td>
+					</tr>
+				</table>
+			</div>
+			After a few iterations of Loop subdivision, the cube no longer remains perfectly symmetric. The center of some faces shifts slightly, and certain edges become longer or shorter than others. This asymmetry becomes more noticeable after multiple subdivisions.I preprocessed cube by split and flip edges. This helps with preserving the original structure of the cube during subdivision loop since we added more edges, and the cube remains more symmetric after multiple subdivisions.Pre-splitting & flipping edges before subdivision helps prevent uneven smoothing.
+
+			<div style="display: flex; flex-direction: column; align-items: center;">
+				<table style="width: 100%; text-align: center; border-collapse: collapse;">
+					<tr>
+						<td style="text-align: center;">
+							<img src="images/part6_00.png" width="400px"/>git add .
+
+							<figcaption>Original cube </figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part6_01.png" width="400px"/>
+							<figcaption>Cube with one iteration of loop subdivision </figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part6_02.png" width="400px"/>
+							<figcaption>Cube with two iteration of loop subdivision </figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part6_03.png" width="400px"/>
+							<figcaption>Cube with three iteration of loop subdivision </figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part6_04.png" width="400px"/>
+							<figcaption>Cube with four iteration of loop subdivision </figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part6_05.png" width="400px"/>
+							<figcaption>Cube with five iteration of loop subdivision </figcaption>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: center;">
+							<img src="images/part6_split_flip.png" width="400px"/>
+							<figcaption>Pre-process cube by edge split and flip</figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part6_11.png" width="400px"/>
+							<figcaption>Cube with one iteration of loop subdivision</figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part6_12.png" width="400px"/>
+							<figcaption>Cube with two iteration of loop subdivision</figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part6_13.png" width="400px"/>
+							<figcaption>Cube with three iteration of loop subdivision</figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part6_14.png" width="400px"/>
+							<figcaption>Cube with four iteration of loop subdivision</figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part6_16.png" width="400px"/>
+							<figcaption>Cube with five iteration of loop subdivision</figcaption>
+					</tr>
+				</table>
+			</div>
 
 		</div>
 	</body>
