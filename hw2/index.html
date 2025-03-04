@@ -28,19 +28,18 @@
 	<body>
 		<div class="container">
 		<h1>CS184/284A Spring 2025 Homework 2 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+		<div style="text-align: center;">Names: Jennifer Cao, Claire Ding</div>
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
-
-		<br>
+		Link to webpage: <a href="https://cal-cs184-student.github.io/hw-webpages-nyahello-writeups/hw2/index.html">Webpage!</a>
 		
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		<br>
+
+		Link to GitHub repository: <a href="https://github.com/cal-cs184-student/sp25-hw2-delulu">Delulu</a> keeps the heart pure and trululu!
 
 		<figure>
 			<img src="teapot.png" alt="Teapot" style="width:50%"/>
-			<figcaption>You can add images with captions!</figcaption>
 		</figure>
 
 		<!--
@@ -48,41 +47,78 @@
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		In this assignment, we built a tool that can render smooth surfaces on a 2d or 3d object in the first part, and a tool that can upsample 3d objects in the second part. The first part focused on implementing bezier curves starting with 2d and then evaluating it for 3d objects. The second part focused on implementing functionalities for the halfedge data structure which allowed the user to manipulate edges and upsample shapes. An interesting problem we faced was how to properly work with the connections between structures after splitting an edge or flipping an edge.
 
 		<h2>Section I: Bezier Curves and Surfaces</h2>
 
 		<h3>Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+		The de Castlejau algorithm takes in points and draws lines between the midpoint to eventually create a smooth curve. We implemented this by implementing a function that can be called multiple times to evaluate the next set of lines in the 2d case. 
+		
+		<p>Curve with different evaluations</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="./images/part1_00.png" width="400px"/>
+				  <figcaption>Original Image</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="./images/part1_01.png" width="400px"/>
+				  <figcaption>First eval</figcaption>
 				</td>
 			  </tr>
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="./images/part1_02.png" width="400px"/>
+				  <figcaption>Second eval</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="./images/part1_03.png" width="400px"/>
+				  <figcaption>Third eval</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./images/part1_04.png" width="400px"/>
+				  <figcaption>Fourth eval</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./images/part1_05.png" width="400px"/>
+				  <figcaption>Last eval</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./images/part1_06.png" width="400px"/>
+				  <figcaption>Evaluate with curve</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<p>Editing points</p>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./images/part1_16.png" width="400px"/>
+				  <figcaption>After moving all points with cursor</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./images/part1_0left.png" width="400px"/>
+				  <figcaption>After using the scroll wheel to shift T to the left</figcaption>
 				</td>
 			  </tr>
 			</table>
 		</div>
 
 		<h3>Part 2: Bezier surfaces with separable 1D de Casteljau</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		For the 3d case, we implemented a recursive function to evaluate points and a given T until there is only 1 control point in the u direction. We did this for each row of control points until we got a single line of control points that are aligned in the v direction. We then fed those points back into the de Castlejau algorithm to get the control point in 3d at a position specified by u,v coordinates.
+
+		<figure>
+			<img src="./images/part2.png" alt="Teapot" style="width:50%"/>
+			<figcaption>Evaluating /bez/teapot.bez</figcaption>
+		</figure>
 
 		<h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
 
@@ -128,10 +164,14 @@
 							<img src="images/part5_original.png" width="400px"/>
 							<figcaption>Before split</figcaption>
 						</td>
+					</tr>
+					<tr>
 						<td style="text-align: center;">
 							<img src="images/part5_split.png" width="400px"/>
 							<figcaption>After split </figcaption>
 						</td>
+					</tr>
+					<tr>
 						<td style="text-align: center;">
 							<img src="images/part5_split_flip.png" width="400px"/>
 							<figcaption>After split and flip </figcaption>
@@ -173,7 +213,7 @@
 				<table style="width: 100%; text-align: center; border-collapse: collapse;">
 					<tr>
 						<td style="text-align: center;">
-							<img src="images/part6_00.png" width="400px"/>git add .
+							<img src="images/part6_00.png" width="400px"/>
 
 							<figcaption>Original cube </figcaption>
 						</td>
@@ -181,6 +221,8 @@
 							<img src="images/part6_01.png" width="400px"/>
 							<figcaption>Cube with one iteration of loop subdivision </figcaption>
 						</td>
+					</tr>
+					<tr>
 						<td style="text-align: center;">
 							<img src="images/part6_02.png" width="400px"/>
 							<figcaption>Cube with two iteration of loop subdivision </figcaption>
@@ -189,6 +231,9 @@
 							<img src="images/part6_03.png" width="400px"/>
 							<figcaption>Cube with three iteration of loop subdivision </figcaption>
 						</td>
+					</tr>
+					<tr>
+
 						<td style="text-align: center;">
 							<img src="images/part6_04.png" width="400px"/>
 							<figcaption>Cube with four iteration of loop subdivision </figcaption>
@@ -198,6 +243,11 @@
 							<figcaption>Cube with five iteration of loop subdivision </figcaption>
 						</td>
 					</tr>
+				</table>
+					<p>
+						Example using subdivision and edge split and flip
+					</p>
+				<table style="width: 100%; text-align: center; border-collapse: collapse;">
 					<tr>
 						<td style="text-align: center;">
 							<img src="images/part6_split_flip.png" width="400px"/>
@@ -207,6 +257,8 @@
 							<img src="images/part6_11.png" width="400px"/>
 							<figcaption>Cube with one iteration of loop subdivision</figcaption>
 						</td>
+					</tr>
+					<tr>
 						<td style="text-align: center;">
 							<img src="images/part6_12.png" width="400px"/>
 							<figcaption>Cube with two iteration of loop subdivision</figcaption>
@@ -215,6 +267,8 @@
 							<img src="images/part6_13.png" width="400px"/>
 							<figcaption>Cube with three iteration of loop subdivision</figcaption>
 						</td>
+					</tr>
+					<tr>
 						<td style="text-align: center;">
 							<img src="images/part6_14.png" width="400px"/>
 							<figcaption>Cube with four iteration of loop subdivision</figcaption>
