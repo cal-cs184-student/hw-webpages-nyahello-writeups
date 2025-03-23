@@ -32,8 +32,8 @@
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to webpage: <a href="https://cal-cs184-student.github.io/hw-webpages-nyahello-writeups/hw3/index.html">cal-cs184-student.github.io/hw-webpages-nyahello-writeups/hw3/index.html</a>
+		Link to GitHub repository: (Make sure to follow the restart branch) <a href="https://github.com/cal-cs184-student/sp25-hw3-tribbie/tree/restart">github.com/cal-cs184-student/sp25-hw3-tribbie/tree/restart</a>
 		
 		<figure>
 			<img src="cornell.png" alt="Cornell Boxes with Bunnies" style="width:70%"/>
@@ -45,12 +45,34 @@
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		In this homework, we implemented functions of a 3D rendering program that can generate images of 3D objects with realistic lighting. This was done using different types of sampling techniques alongside a pathtracting algorithm for light rays. These algorithms that handle light bounces are supported by a bounding hierarchy tree which accelerates finding where rays hit the object. Lastly, we also added adaptive sampling to improve issues with noise.
 
 		<h2>Part 1: Ray Generation and Scene Intersection</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		The first part involved using normalized image coordinates to generate a ray in camera space that we later work with to detect intersections. In order to generate that ray, we calculated a field of view for the camera filter to create a new basis for the image coordinates. Then we used a change of basis to transform the image coordinates to coordinates in the scene within the field of view of the camera sensor. Lastly, to create the ray, we took the opposite direction of the camera’s z-axis and the transformed image coordinates to world space to get the direction of the ray. Using this and the position of the camera sensor, we were able to finally generate a ray.
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+		<br>
+		<br>
+		Alongside ray generation, we also implemented pixel sampling but also ray-object intersection functions. There were two intersections that we focused on, ray-triangle intersection and ray-sphere intersection. Ray-sphere intersection involves using a test function that finds if there is an intersection and the times at which the ray intersects. We then check the time to ensure that it is within the minimum time or maximum time of the ray. These values determine when the ray begins and ends.
+
+		<br>
+		<br>
+		The other intersection method we implemented was ray-triangle intersection. We implemented the Möller-Trumbore algorithm which calculates barycentric coordinates using the triangles points and the ray’s origin/direction. We first define three vectors, s as the ray’s origin, s1 as a dot product between the ray’s direction and one of the edges of the triangle, and s2 as the dot product between s and the other edge. We then check if the dot product of the s1 and an edge is equal to 0 to determine if the ray is parallel to the triangle’s plane. Then, we calculated barycentric coordinates b1 and b2 by getting the dot product of s1 with s and s2 with the ray’s direction and dividing both by the dot product of s1 and an edge. The time that the ray intersects can be determined by getting the dot product of s2 with the other edge and dividing by the dot product of s1 and an edge again. To check if the intersection is valid, we check if the time is between the intervals where the ray exists, and that the barycentric proportions add up to 1.
+
+		<br>
+
+		<p>Here is are some images we rendered.</p>
+		<figure>
+			<img src="./images/p1_spheres.png" alt="Spheres" style="width:80%"/>
+			<figcaption>Rendering of <em>CBspheres_lambertian.dae</em></figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p1_gems.png" alt="Gems" style="width:80%"/>
+			<figcaption>Rendering of <em>CBgems.dae</em></figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p1_coil.png" alt="Coil" style="width:80%"/>
+			<figcaption>Rendering of <em>CBcoil.dae</em></figcaption>
+		</figure>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
@@ -77,7 +99,27 @@
 		</div>
 		
 		<h2>Part 2: Bounding Volume Hierarchy</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		In part two of the homework, we worked on accelerating rendering using Bounding Volume Hierarchy. We start by creating a bounding box for the node and adding all of the primitives as well as creating the current node for the tree. Then we check if the node has too many nodes to be a leaf. If it counts as a leaf we just return the node but if it has too many primitives, then we need to split it. 
+		<br>
+		The split heuristic we used ended up being checking which axis of the current bounding box is the largest. Our initial idea was to use the variance of the centroids of each point but there were issues with splitting so we switched to a simpler method. For the split heuristic, we found the axis of the overall bounding box that was the widest and assigned all primitives with centroids less than the axis value assigned to the left node of the tree and the rest to the right node.
+		<br>
+
+		<figure>
+			<img src="./images/p2_cow_slow.png" alt="Spheres" style="width:80%"/>
+			<figcaption>Rendering of <em>cow.dae</em></figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p2_plank_slow.png" alt="Gems" style="width:80%"/>
+			<figcaption>Rendering of <em>maxplanck.dae</em></figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p2_beetle.png" alt="Coil" style="width:80%"/>
+			<figcaption>Rendering of <em>beetle.dae</em></figcaption>
+		</figure>
+
+		The three images we chose to test were the cow, maxplanck, and beetle. Without using the acceleration from Bounding Volume Hierarchy, the cow took 23 seconds to render, but with the acceleration technique, it was able to render in 0.0907 seconds. Max planck took 346 seconds to render without BVH acceleration but with acceleration, it took only 0.1235 seconds. The last image we rendered was the beetle which took 31 seconds without BVH and 0.0786 seconds with. The main reason BVH resulted in such an improvement was because it allows intersect detection to run in logarithmic time by eliminating a lot of empty space that would not need to be checked for intersections.
+
+		<br>
 
 		<h2>Part 3: Direct Illumination</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
