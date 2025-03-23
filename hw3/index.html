@@ -45,18 +45,18 @@
 		-->
 
 		<h2>Overview</h2>
-		In this homework, we implemented functions of a 3D rendering program that can generate images of 3D objects with realistic lighting. This was done using different types of sampling techniques alongside a pathtracting algorithm for light rays. These algorithms that handle light bounces are supported by a bounding hierarchy tree which accelerates finding where rays hit the object. Lastly, we also added adaptive sampling to improve issues with noise.
+		&emsp; In this homework, we implemented functions of a 3D rendering program that can generate images of 3D objects with realistic lighting. This was done using different types of sampling techniques alongside a pathtracting algorithm for light rays. These algorithms that handle light bounces are supported by a bounding hierarchy tree which accelerates finding where rays hit the object. Lastly, we also added adaptive sampling to improve issues with noise.
 
 		<h2>Part 1: Ray Generation and Scene Intersection</h2>
-		The first part involved using normalized image coordinates to generate a ray in camera space that we later work with to detect intersections. In order to generate that ray, we calculated a field of view for the camera filter to create a new basis for the image coordinates. Then we used a change of basis to transform the image coordinates to coordinates in the scene within the field of view of the camera sensor. Lastly, to create the ray, we took the opposite direction of the camera’s z-axis and the transformed image coordinates to world space to get the direction of the ray. Using this and the position of the camera sensor, we were able to finally generate a ray.
+		&emsp; The first part involved using normalized image coordinates to generate a ray in camera space that we later work with to detect intersections. In order to generate that ray, we calculated a field of view for the camera filter to create a new basis for the image coordinates. Then we used a change of basis to transform the image coordinates to coordinates in the scene within the field of view of the camera sensor. Lastly, to create the ray, we took the opposite direction of the camera’s z-axis and the transformed image coordinates to world space to get the direction of the ray. Using this and the position of the camera sensor, we were able to finally generate a ray.
 
 		<br>
 		<br>
-		Alongside ray generation, we also implemented pixel sampling but also ray-object intersection functions. There were two intersections that we focused on, ray-triangle intersection and ray-sphere intersection. Ray-sphere intersection involves using a test function that finds if there is an intersection and the times at which the ray intersects. We then check the time to ensure that it is within the minimum time or maximum time of the ray. These values determine when the ray begins and ends.
+		&emsp; Alongside ray generation, we also implemented pixel sampling but also ray-object intersection functions. There were two intersections that we focused on, ray-triangle intersection and ray-sphere intersection. Ray-sphere intersection involves using a test function that finds if there is an intersection and the times at which the ray intersects. We then check the time to ensure that it is within the minimum time or maximum time of the ray. These values determine when the ray begins and ends.
 
 		<br>
 		<br>
-		The other intersection method we implemented was ray-triangle intersection. We implemented the Möller-Trumbore algorithm which calculates barycentric coordinates using the triangles points and the ray’s origin/direction. We first define three vectors, s as the ray’s origin, s1 as a dot product between the ray’s direction and one of the edges of the triangle, and s2 as the dot product between s and the other edge. We then check if the dot product of the s1 and an edge is equal to 0 to determine if the ray is parallel to the triangle’s plane. Then, we calculated barycentric coordinates b1 and b2 by getting the dot product of s1 with s and s2 with the ray’s direction and dividing both by the dot product of s1 and an edge. The time that the ray intersects can be determined by getting the dot product of s2 with the other edge and dividing by the dot product of s1 and an edge again. To check if the intersection is valid, we check if the time is between the intervals where the ray exists, and that the barycentric proportions add up to 1.
+		&emsp; The other intersection method we implemented was ray-triangle intersection. We implemented the Möller-Trumbore algorithm which calculates barycentric coordinates using the triangles points and the ray’s origin/direction. We first define three vectors, s as the ray’s origin, s1 as a dot product between the ray’s direction and one of the edges of the triangle, and s2 as the dot product between s and the other edge. We then check if the dot product of the s1 and an edge is equal to 0 to determine if the ray is parallel to the triangle’s plane. Then, we calculated barycentric coordinates b1 and b2 by getting the dot product of s1 with s and s2 with the ray’s direction and dividing both by the dot product of s1 and an edge. The time that the ray intersects can be determined by getting the dot product of s2 with the other edge and dividing by the dot product of s1 and an edge again. To check if the intersection is valid, we check if the time is between the intervals where the ray exists, and that the barycentric proportions add up to 1.
 
 		<br>
 
@@ -73,56 +73,85 @@
 			<img src="./images/p1_coil.png" alt="Coil" style="width:80%"/>
 			<figcaption>Rendering of <em>CBcoil.dae</em></figcaption>
 		</figure>
-		<div style="display: flex; flex-direction: column; align-items: center;">
-			<table style="width: 100%; text-align: center; border-collapse: collapse;">
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			</table>
-		</div>
 		
 		<h2>Part 2: Bounding Volume Hierarchy</h2>
-		In part two of the homework, we worked on accelerating rendering using Bounding Volume Hierarchy. We start by creating a bounding box for the node and adding all of the primitives as well as creating the current node for the tree. Then we check if the node has too many nodes to be a leaf. If it counts as a leaf we just return the node but if it has too many primitives, then we need to split it. 
+		&emsp; In part two of the homework, we worked on accelerating rendering using Bounding Volume Hierarchy. We start by creating a bounding box for the node and adding all of the primitives as well as creating the current node for the tree. Then we check if the node has too many nodes to be a leaf. If it counts as a leaf we just return the node but if it has too many primitives, then we need to split it. 
 		<br>
-		The split heuristic we used ended up being checking which axis of the current bounding box is the largest. Our initial idea was to use the variance of the centroids of each point but there were issues with splitting so we switched to a simpler method. For the split heuristic, we found the axis of the overall bounding box that was the widest and assigned all primitives with centroids less than the axis value assigned to the left node of the tree and the rest to the right node.
+		&emsp; The split heuristic we used ended up being checking which axis of the current bounding box is the largest. Our initial idea was to use the variance of the centroids of each point but there were issues with splitting so we switched to a simpler method. For the split heuristic, we found the axis of the overall bounding box that was the widest and assigned all primitives with centroids less than the axis value assigned to the left node of the tree and the rest to the right node.
 		<br>
 
 		<figure>
-			<img src="./images/p2_cow_slow.png" alt="Spheres" style="width:80%"/>
-			<figcaption>Rendering of <em>cow.dae</em></figcaption>
+			<img src="./images/p2_cow_slow.png" alt="Cow" style="width:80%"/>
+			<figcaption>Rendering of <em>cow.dae</em>. Without BVH: 23s, With BVH: 0.0907s</figcaption>
 		</figure>
 		<figure>
-			<img src="./images/p2_plank_slow.png" alt="Gems" style="width:80%"/>
-			<figcaption>Rendering of <em>maxplanck.dae</em></figcaption>
+			<img src="./images/p2_plank_slow.png" alt="MaxPlanck" style="width:80%"/>
+			<figcaption>Rendering of <em>maxplanck.dae</em>. Without BVH: 346s, With BVH: 0.1235s</figcaption>
 		</figure>
 		<figure>
-			<img src="./images/p2_beetle.png" alt="Coil" style="width:80%"/>
-			<figcaption>Rendering of <em>beetle.dae</em></figcaption>
+			<img src="./images/p2_beetle.png" alt="Beetle" style="width:80%"/>
+			<figcaption>Rendering of <em>beetle.dae</em>. Without BVH: 31s, With BVH: 0.0786s</figcaption>
 		</figure>
 
-		The three images we chose to test were the cow, maxplanck, and beetle. Without using the acceleration from Bounding Volume Hierarchy, the cow took 23 seconds to render, but with the acceleration technique, it was able to render in 0.0907 seconds. Max planck took 346 seconds to render without BVH acceleration but with acceleration, it took only 0.1235 seconds. The last image we rendered was the beetle which took 31 seconds without BVH and 0.0786 seconds with. The main reason BVH resulted in such an improvement was because it allows intersect detection to run in logarithmic time by eliminating a lot of empty space that would not need to be checked for intersections.
+		&emsp; The three images we chose to test were the cow, maxplanck, and beetle. Without using the acceleration from Bounding Volume Hierarchy, the cow took 23 seconds to render, but with the acceleration technique, it was able to render in 0.0907 seconds. Max planck took 346 seconds to render without BVH acceleration but with acceleration, it took only 0.1235 seconds. The last image we rendered was the beetle which took 31 seconds without BVH and 0.0786 seconds with. The main reason BVH resulted in such an improvement was because it allows intersect detection to run in logarithmic time by eliminating a lot of empty space that would not need to be checked for intersections.
 
 		<br>
 
 		<h2>Part 3: Direct Illumination</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+		<br>
+		<h3>Hemisphere sampling vs Importance sampling</h3>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./images/p3_CBbunny_hemi_low.png" width="400px"/>
+				  <figcaption>Bunny rendered using <strong>Hemisphere sampling</strong> with 16 samples, 8 lights and a max ray depth of 1</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./images/p3_bunny_imp_low2.png" width="400px"/>
+				  <figcaption>Bunny rendered using <strong>Importance sampling</strong> with 16 samples, 8 lights and a max ray detpth of 1</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./images/p3_CBbunny_hemi_high.png" width="400px"/>
+				  <figcaption>Bunny rendered using <strong>Hemisphere sampling</strong> with 64 samples, 32 lights and a max ray depth of 6</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./images/p3_bunny_imp_high.png" width="400px"/>
+				  <figcaption>Bunny rendered using <strong>Importance sampling</strong> with 64 samples, 32 lights and a max ray depth of 6</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+		<br>
+
+		<h3>Importance Sampling with Varying Lights</h3>
+		<figure>
+			<img src="./images/p3_bunny_shadow1.png" style="width:80%"/>
+			<figcaption>Bunny rendered with importance sampling with 1 light</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p3_bunny_shadow4.png" style="width:80%"/>
+			<figcaption>Bunny rendered with importance sampling with 4 lights</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p3_bunny_shadow16.png" style="width:80%"/>
+			<figcaption>Bunny rendered with importance sampling with 16 lights</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p3_bunny_shadow64.png" style="width:80%"/>
+			<figcaption>Bunny rendered with importance sampling with 64 lights</figcaption>
+		</figure>
+		<br>
+
+		<h3>Hemisphere sampling vs Importance sampling: Analysis</h3>
+		&emsp; When comparing hemisphere sampling and importance sampling lights, the main difference at both the lower sampling rates and the higher sampling rates was how much noise was in the image. 
+		<br>
+		&emsp; Overall, hemisphere sampling had a lot more noise scattered throughout the image than any of the importance sampling renders. This is due to how hemisphere sampling assumes the existence of light rays in directions where there are no light sources which then gets added to the sample as noise. However, importance sampling avoids this by only sampling the lights in the scene which made it produce a much cleaner result because it avoids adding rays that don’t actually contribute light.
+		<br>
 
 		<h2>Part 4: Global Illumination</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -130,19 +159,6 @@
 		<h2>Part 5: Adaptive Sampling</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-		<h2>(Optional) Part 6: Extra Credit Opportunities</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
 		</div>
 	</body>
 </html>
