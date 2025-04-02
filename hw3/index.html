@@ -28,7 +28,7 @@
 	<body>
 		<div class="container">
 		<h1>CS184/284A Spring 2025 Homework 3 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+		<div style="text-align: center;">Names: Jennifer Cao, Claire Ding </div>
 
 		<br>
 
@@ -60,7 +60,7 @@
 
 		<br>
 
-		<p>Here is are some images we rendered.</p>
+		<p>Here are some images we rendered.</p>
 		<figure>
 			<img src="./images/p1_spheres.png" alt="Spheres" style="width:80%"/>
 			<figcaption>Rendering of <em>CBspheres_lambertian.dae</em></figcaption>
@@ -147,18 +147,164 @@
 		</figure>
 		<br>
 
-		<h3>Hemisphere sampling vs Importance sampling: Analysis</h3>
-		&emsp; When comparing hemisphere sampling and importance sampling lights, the main difference at both the lower sampling rates and the higher sampling rates was how much noise was in the image. 
 		<br>
 		&emsp; Overall, hemisphere sampling had a lot more noise scattered throughout the image than any of the importance sampling renders. This is due to how hemisphere sampling assumes the existence of light rays in directions where there are no light sources which then gets added to the sample as noise. However, importance sampling avoids this by only sampling the lights in the scene which made it produce a much cleaner result because it avoids adding rays that don’t actually contribute light.
 		<br>
 
 		<h2>Part 4: Global Illumination</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		The at_least_one_bounce_radiance function computes the radiance at a surface point due to both direct and indirect illumination, and is called recursively to simulate multiple light bounces. It begins by constructing a local coordinate frame from the surface normal and transforming the outgoing ray direction into local space. It samples an incoming direction using the BSDF, retrieves the BSDF value and corresponding PDF, and terminates early if the PDF is zero or if the ray has no remaining depth. It then generates a new ray in world space, offset slightly to avoid self-intersection, and decrements its depth. The function always adds the direct lighting at the current intersection using one_bounce_radiance. For indirect lighting, it uses Russian Roulette to probabilistically terminate rays and reduce computation. If the new ray intersects a surface and survives Russian Roulette, it recursively calls itself to compute indirect lighting. If the BSDF is delta-distributed (e.g., mirror), it also adds zero_bounce_radiance. The final contribution from the bounce is weighted by the BSDF value, cosine of the incident angle, PDF, and Russian Roulette probability, and added to the total radiance output.
+		<h3>Some images rendered with global (direct and indirect) illumination with 1024 samples per pixel.</h3>
+		<figure>
+			<img src="./images/p4_bunny.png" style="width:80%"/>
+			<figcaption>Bunny rendered with 1024 samples per pixel</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_bench.png" style="width:80%"/>
+			<figcaption>Bench rendered with 1024 samples per pixel</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_sphere.png" style="width:80%"/>
+			<figcaption>Spheres rendered with 1024 samples per pixel</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_empty_bunny.png" style="width:80%"/>
+			<figcaption>Bunny rendered with 1024 samples per pixel</figcaption>
+		</figure>
+		<br>
+		<h3>Bunny with only direct illumination, then only indirect illumination, with 1024 samples per pixel.</h3>
+		<figure>
+			<img src="./images/p4_bunny_direct.png" style="width:80%"/>
+			<figcaption>Bunny rendered with direct illumination and 1024 samples per pixel</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_bunny_indirect.png" style="width:80%"/>
+			<figcaption>Bunny rendered with indirect illumination and 1024 samples per pixel</figcaption>
+		</figure>
+		<br>
+		<h3>For CBbunny.dae, render the mth bounce of light with max_ray_depth set to 0, 1, 2, 3, 4, and 5 (the -m flag), and isAccumBounces=false. </h3>
+			For the 2nd bounce (-m 2), the image begins to reveal subtle indirect lighting effects soft illumination appears in shadowed areas, especially around crevices or areas blocked from direct light. This bounce captures light that has reflected off one surface before hitting the visible geometry, contributing to soft ambient fills that improve depth perception.
 
+			By the 3rd bounce (-m 3), these indirect effects are even more pronounced. Surfaces facing away from light sources become better lit due to multiple light inter-reflections, enhancing the realism of global illumination. The image starts to feel more cohesive and less flat, and color bleeding (where light picks up color from one surface and affects others) becomes more noticeable.
+		<figure>
+			<img src="./images/p4_bunny_m5_o0.png" style="width:80%"/>
+			<figcaption>Bunny rendered with max_ray_depth = 5 and isAccumBounces = False</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_bunny_m4_o0.png" style="width:80%"/>
+			<figcaption>Bunny rendered with max_ray_depth = 4 and isAccumBounces = False</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_bunny_m3_o0.png" style="width:80%"/>
+			<figcaption>Bunny rendered with max_ray_depth = 3 and isAccumBounces = False</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_bunny_m2_o0.png" style="width:80%"/>
+			<figcaption>Bunny rendered with max_ray_depth = 2 and isAccumBounces = False</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_bunny_m1_o0.png" style="width:80%"/>
+			<figcaption>Bunny rendered with max_ray_depth = 1 and isAccumBounces = False</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_bunny_m0_o0.png" style="width:80%"/>
+			<figcaption>Bunny rendered with max_ray_depth = 0 and isAccumBounces = False</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_bunny_m1_o1.png" style="width:80%"/>
+			<figcaption>Bunny rendered with max_ray_depth = 1 and isAccumBounces = True</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_bunny_m2_o1.png" style="width:80%"/>
+			<figcaption>Bunny rendered with max_ray_depth = 2 and isAccumBounces = True</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_bunny_m3_o1.png" style="width:80%"/>
+			<figcaption>Bunny rendered with max_ray_depth = 3 and isAccumBounces = True</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_bunny_m4_o1.png" style="width:80%"/>
+			<figcaption>Bunny rendered with max_ray_depth = 4 and isAccumBounces = True</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_bunny_m5_o1.png" style="width:80%"/>
+			<figcaption>Bunny rendered with max_ray_depth = 5 and isAccumBounces = True</figcaption>
+		</figure>
+		<br>
+		<h3>For CBbunny.dae, output the Russian Roulette rendering with max_ray_depth set to 0, 1, 2, 3, 4, and 100(the -m flag). Use 1024 samples per pixel.</h3>
+		<figure>
+			<img src="./images/p4_bunny_m0_o0.png" style="width:80%"/>
+			<figcaption>Bunny rendered with max_ray_depth = 0</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_bunny_m1_o1.png" style="width:80%"/>
+			<figcaption>Bunny rendered with max_ray_depth = 1</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_bunny_m2_o1.png" style="width:80%"/>
+			<figcaption>Bunny rendered with max_ray_depth = 2</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_bunny_m3_o1.png" style="width:80%"/>
+			<figcaption>Bunny rendered with max_ray_depth = 3</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_bunny_m4_o1.png" style="width:80%"/>
+			<figcaption>Bunny rendered with max_ray_depth = 4</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_bunny_m100_o1.png" style="width:80%"/>
+			<figcaption>Bunny rendered with max_ray_depth = 100</figcaption>
+		</figure>
+		<h3>Pick one scene and compare rendered views with various sample-per-pixel rates, including at least 1, 2, 4, 8, 16, 64, and 1024. Use 4 light rays.</h3>
+		<figure>
+			<img src="./images/p4_sphere_s1_l4.png" style="width:80%"/>
+			<figcaption>Sphere with sample rate 1</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_sphere_s2_l4.png" style="width:80%"/>
+			<figcaption>Sphere with sample rate 2</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_sphere_s4_l4.png" style="width:80%"/>
+			<figcaption>Sphere with sample rate 4</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_sphere_s8_l4.png" style="width:80%"/>
+			<figcaption>Sphere with sample rate 8</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_sphere_s16_l4.png" style="width:80%"/>
+			<figcaption>Sphere with sample rate 16</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_sphere_s64_l4.png" style="width:80%"/>
+			<figcaption>Sphere with sample rate 64</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p4_sphere_s1024_l4.png" style="width:80%"/>
+			<figcaption>Sphere with sample rate 1024</figcaption>
+		</figure>
+
+
+		<br>
 		<h2>Part 5: Adaptive Sampling</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
+			Adaptive sampling is a technique used to efficiently allocate computational effort during rendering by varying the number of samples per pixel based on convergence. In the raytrace_pixel implementation, the renderer begins by initializing accumulators for radiance and luminance statistics. For each sample, it jitter-samples a point within the pixel, generates a camera ray, and computes the incoming radiance using global illumination. It tracks the sum and squared sum of luminance to estimate the mean and variance. After every fixed number of samples (a batch), it checks whether the pixel has converged by computing a 95% confidence interval around the mean luminance. If the confidence interval falls within a user-defined tolerance, sampling stops early; otherwise, it continues up to the maximum allowed samples. Once sampling is complete, the average radiance is computed and stored in the image buffer, and the number of samples taken is recorded in a separate buffer used to generate a sample rate visualization. This approach ensures that smooth, low-variance regions are sampled less, while complex or noisy regions receive more samples, improving both rendering speed and image quality.		<h3>Pick two scenes and render them with at least 2048 samples per pixel. Show a good sampling rate image with clearly visible differences in sampling rate over various regions and pixels. Include both your sample rate image, which shows your how your adaptive sampling changes depending on which part of the image you are rendering, and your noise-free rendered result. Use 1 sample per light and at least 5 for max ray depth.</h3>
+		<figure>
+			<img src="./images/p5_bunny.png" style="width:80%"/>
+			<figcaption>Bunny with sample rate 2048</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p5_bunny_rate.png" style="width:80%"/>
+			<figcaption>Bunny sample rate image with sample rate 2048</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p5_sphere.png" style="width:80%"/>
+			<figcaption>Sphere with sample rate 2048</figcaption>
+		</figure>
+		<figure>
+			<img src="./images/p5_sphere_rate.png" style="width:80%"/>
+			<figcaption>Sphere sample rate image with sample rate 2048</figcaption>
+		</figure>
 		</div>
 	</body>
 </html>
