@@ -134,7 +134,7 @@
 					</tr>
 				</table>
 			</div>
-			<p> The spring dampingcontrols how much energy is lost over time due to things like internal friction or air resistance. With low damping, cloth keeps moving and oscillates a lot. Cloth looks more natural and dynamic. With high damping, cloth motion is quickly suppressed, and cloth is stiffer.</p>
+			<p> The spring damping controls how much energy is lost over time due to things like internal friction or air resistance. With low damping, cloth keeps moving and oscillates a lot. Cloth looks more natural and dynamic. With high damping, cloth motion is quickly suppressed, and cloth is stiffer.</p>
 			<div style="display: flex; flex-direction: column; align-items: center;">
 				<table style="width: 100%; text-align: center; border-collapse: collapse;">
 					<tr>
@@ -162,8 +162,40 @@
 			</div>
 
 		<h2>Part 3: Handling collisions with other objects</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			<p> For sphere collisions:
+				When a point mass is inside the sphere or intersects with it, adjust its position so that it's just above the sphere's surface, with friction applied to ensure smooth interaction.
+				Algorithm:
+				Compute the direction from the point mass to the sphere's center.
+				Calculate the tangent point on the sphere's surface where the point mass should land.
+				Correct the position using the friction factor to keep it from tunneling through the sphere.</p>
+			<br/>
+			<p>For plane Collisions:
+				Handle point masses that pass through a plane. If a point mass crosses over the plane between two frames, it's adjusted back to the correct side with a small offset.
+				Algorithm:
+				Check if the point mass crosses the plane by examining the direction of motion relative to the plane's normal.
+				Calculate the intersection (tangent point) with the plane.
+				Correct the position by moving it slightly above the tangent point, using friction to prevent jitter.</p>
+			<br/>
+			<p> Holding other parameters constant, with a low ks, the cloth is more stretchy, appears loose around the sphere, with multiple wrinkles and folds. With a higher ks, the cloth is more stable and resistant to stretching. Folds are tighter and stiffer with minimal wrinkles.</p>
 
+			<div style="display: flex; flex-direction: column; align-items: center;">
+				<table style="width: 100%; text-align: center; border-collapse: collapse;">
+					<tr>
+						<td style="text-align: center;">
+							<img src="images/part3_500ks.png" width="500px"/>
+							<figcaption>With 500ks</figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part3_5000ks.png" width="500px"/>
+							<figcaption>With 5000ks</figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part3_50000ks.png" width="500px"/>
+							<figcaption>With 50000ks</figcaption>
+						</td>
+					</tr>
+				</table>
+			</div>
 		<h2>Part 4: Handling self-collisions</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
