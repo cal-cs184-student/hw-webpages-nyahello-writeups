@@ -28,7 +28,7 @@
 	<body>
 		<div class="container">
 		<h1>CS184/284A Spring 2025 Homework 4 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+		<div style="text-align: center;">Names: Jennifer Cao, Claire Ding</div>
 
 		<br>
 
@@ -40,7 +40,6 @@
 
 		<figure>
 			<img src="clothsim.png" alt="Cloth draped over sphere" style="width:70%"/>
-			<figcaption>You can add images with captions!</figcaption>
 		</figure>
 
 		<!--
@@ -48,7 +47,7 @@
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		&emsp; For this homework assignment, we built a physics simulation of a piece of cloth using a mass and spring system. We started by defining and adding mass and spring physics to the cloth mesh itself and then moved onto adding collision handling. Lastly, we also explored using shaders and GLSL to map different textures and handle lighting.
 
 		<h2>Part 1: Masses and springs</h2>
 
@@ -94,27 +93,27 @@
 			</div>
 
 		<h2>Part 2: Simulation via numerical integration</h2>
-			<p> The spring constant ks measures the stiffness. With a low ks, the cloth behaves like a jello or slime, very wobbly and stretches a lot when falling. On the other hand, when ks is high, cloth appears to be very stiff, has less wrinkles and folds when fall.</p>
+			<p> The spring constant <i>ks</i> measures the stiffness. With a low <i>ks</i>, the cloth behaves like a jello or slime, very wobbly and stretches a lot when falling. On the other hand, when <i>ks</i> is high, cloth appears to be very stiff, has less wrinkles and folds when fall.</p>
 			<div style="display: flex; flex-direction: column; align-items: center;">
 				<table style="width: 100%; text-align: center; border-collapse: collapse;">
 					<tr>
 						<td style="text-align: center;">
 							<img src="images/part2_lowks_0.png" width="600px"/>
-							<figcaption>With low ks</figcaption>
+							<figcaption>With low <i>ks</i></figcaption>
 						</td>
 						<td style="text-align: center;">
 							<img src="images/part2_lowks_1.png" width="600px"/>
-							<figcaption>With low ks</figcaption>
+							<figcaption>With low <i>ks</i></figcaption>
 						</td>
 					</tr>
 					<tr>
 						<td style="text-align: center;">
 							<img src="images/part2_highks_0.png" width="600px"/>
-							<figcaption>With high ks</figcaption>
+							<figcaption>With high <i>ks</i></figcaption>
 						</td>
 						<td style="text-align: center;">
 							<img src="images/part2_highks_1.png" width="600px"/>
-							<figcaption>With high ks</figcaption>
+							<figcaption>With high <i>ks</i></figcaption>
 						</td>
 					</tr>
 				</table>
@@ -182,21 +181,28 @@
 				<table style="width: 100%; text-align: center; border-collapse: collapse;">
 					<tr>
 						<td style="text-align: center;">
-							<img src="images/part3_500ks.png" width="500px"/>
+							<img src="images/part3_500ks.png" width="400px"/>
 							<figcaption>With 500ks</figcaption>
 						</td>
 						<td style="text-align: center;">
-							<img src="images/part3_5000ks.png" width="500px"/>
+							<img src="images/part3_5000ks.png" width="400px"/>
 							<figcaption>With 5000ks</figcaption>
 						</td>
 						<td style="text-align: center;">
-							<img src="images/part3_50000ks.png" width="500px"/>
+							<img src="images/part3_50000ks.png" width="400px"/>
 							<figcaption>With 50000ks</figcaption>
 						</td>
 					</tr>
+				</table>
+			</div>
+
+			<br>
+
+			<div style="display: flex; flex-direction: column; align-items: center;">
+				<table style="width: 100%; text-align: center; border-collapse: collapse;">
 					<tr>
 						<td style="text-align: center;">
-							<img src="images/part3_plane_cloth.png" width="500px"/>
+							<img src="images/part3_plane_cloth.png" width="400px"/>
 							<figcaption>Shaded cloth lying peacefully at rest on the plane</figcaption>
 						</td>
 					</tr>
@@ -214,59 +220,159 @@
 				<table style="width: 100%; text-align: center; border-collapse: collapse;">
 					<tr>
 						<td style="text-align: center;">
-							<img src="images/part4_cloth0.png" width="600px"/>
+							<img src="images/part4_cloth0.png" width="400px"/>
 <!--							<figcaption>Initial self collision</figcaption>-->
 						</td>
 						<td style="text-align: center;">
-							<img src="images/part4_cloth1.png" width="600px"/>
+							<img src="images/part4_cloth1.png" width="400px"/>
 <!--							<figcaption>Secondary step of self collision</figcaption>-->
 						</td>
 					</tr>
 					<tr>
 						<td style="text-align: center;">
-							<img src="images/part4_cloth2.png" width="600px"/>
+							<img src="images/part4_cloth2.png" width="400px"/>
 <!--							<figcaption>Fully on the floor</figcaption>-->
 						</td>
 						<td style="text-align: center;">
-							<img src="images/part4_cloth3.png" width="600px"/>
+							<img src="images/part4_cloth3.png" width="400px"/>
 <!--							<figcaption>With 50000ks</figcaption>-->
 						</td>
 					</tr>
+				</table>
+			</div>
+
+			<div style="display: flex; flex-direction: column; align-items: center;">
+				<table style="width: 100%; text-align: center; border-collapse: collapse;">
 					<tr>
 						<td style="text-align: center;">
 							<img src="images/part4_cloth4.png" width="600px"/>
 						</td>
 					</tr>
-					<tr><td style="text-align: center;">
-						<img src="images/part5_low.png" width="600px"/>
-						<figcaption>With low density and ks</figcaption>
-					</td>
+				</table>
+			</div>
+
+			<div style="display: flex; flex-direction: column; align-items: center;">
+				<table style="width: 100%; text-align: center; border-collapse: collapse;">
+					<tr>
 						<td style="text-align: center;">
-							<img src="images/part5_med.png" width="600px"/>
+							<img src="images/part5_low.png" width="400px"/>
+							<figcaption>With low density and ks</figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part5_med.png" width="400px"/>
 							<figcaption>With medium density and ks</figcaption>
 						</td>
 						<td style="text-align: center;">
-							<img src="images/part5_hi.png" width="600px"/>
+							<img src="images/part5_hi.png" width="400px"/>
 							<figcaption>With high density and ks</figcaption>
-						</td></tr>
+						</td>
+					</tr>
 				</table>
 			</div>
 		<h2>Part 5: Shaders</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		&emsp; Shader programs help accelerate rendering with realistic lighting by providing isolated programs that can parallelize parts of the graphics pipeline. A shader program is made up of two parts, the vertex shader which apply transforms to vertices to modify positions, and the fragment shader, which takes in the geometric attributes of fragments outputted by the vertex shader and computes colors/lighting effects.
 
-		<h2>(Optional) Part 6: Extra Credit - Additional cloth simulation features!</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<br>
+	
+		<h3>Blinn-Phong</h3>
+		<br>
+		&emsp; The Blinn-Phong shading model decomposes lighting into three parts: ambient, diffuse and specular. Ambient light accounts for the indirect lighting that an object should get from the environment. Diffuse light accounts for the light that gets scattered from the surface. Specular light accounts for the reflection of a light on the surface.
+
+		<br>
+		<figure>
+			<img src="./images/p5_phong_ambient.png" alt="ambient" style="width:70%"/>
+			<figcaption>Sphere and cloth with only ambient light</figcaption>
+		</figure>
+
+		<figure>
+			<img src="./images/p5_phong_diffuse.png" alt="diffuse" style="width:70%"/>
+			<figcaption>Sphere and cloth with only diffuse light</figcaption>
+		</figure>
+
+		<figure>
+			<img src="./images/p5_phong_specular.png" alt="specular" style="width:70%"/>
+			<figcaption>Sphere and cloth with only specular light</figcaption>
+		</figure>
+
+		<br>
+		<h3>Custom Texture Map</h3>
+		<figure>
+			<img src="./images/p5_texture_custom.png" alt="specular" style="width:70%"/>
+			<figcaption>Sphere and cloth with a custom texture. his name is shamrock :3c</figcaption>
+		</figure>
+
+		<h3>Bump vs. Displacement</h3>
 		
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+					<td style="text-align: center;">
+						<img src="images/p5_bump.png" width="400px"/>
+						<figcaption>Custom texture using bump</figcaption>
+					</td>
+					<td style="text-align: center;">
+						<img src="images/p5_bump2.png" width="400px"/>
+						<figcaption>her name is snowy :3c</figcaption>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+					<td style="text-align: center;">
+						<img src="images/p5_displacement1.png" width="400px"/>
+						<figcaption>Custom texture using displacement</figcaption>
+					</td>
+					<td style="text-align: center;">
+						<img src="images/p5_displacement2.png" width="400px"/>
+						<figcaption>more snowy :3c</figcaption>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<p>
+			&emsp; These two shaders differ in how displacement is treated. Each texture is treated as an imprint with 3d elements on it which creates the shadows but displacement then takes those bumps and actually displaces the cloth after it falls on the ball, causing it to act as not just a flat piece of cloth but as two textured elements.
+		</p>
+
+		<h3>Bump and Displacement with Coarseness</h3>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+					<td style="text-align: center;">
+						<img src="images/p5_bump16.png" width="400px"/>
+						<figcaption>Bump using custom texture with coarseness of 16</figcaption>
+					</td>
+					<td style="text-align: center;">
+						<img src="images/p5_displacement16.png" width="400px"/>
+						<figcaption>Displacement using custom texture with coarseness of 16</figcaption>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align: center;">
+						<img src="images/p5_bump128.png" width="400px"/>
+						<figcaption>Bump using custom texture with coarseness of 128</figcaption>
+					</td>
+					<td style="text-align: center;">
+						<img src="images/displacement128.png" width="400px"/>
+						<figcaption>Displacement using custom texture with coarseness of 128</figcaption>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<p>
+			&emsp; Increasing the resolution makes the images render smoother on the cloth. It makes the textures more smooth as well due to the higher resolution.
+		</p>
+
+		<h3>Mirror</h3>
+		<figure>
+			<img src="./images/p5_mirror.png" alt="specular" style="width:70%"/>
+			<figcaption>Sphere and cloth with a mirror texture.</figcaption>
+		</figure>
+
+
 		</div>
 	</body>
 </html>
