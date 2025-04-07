@@ -197,8 +197,38 @@
 				</table>
 			</div>
 		<h2>Part 4: Handling self-collisions</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			<p> For function hash_position: 1. we partition space into 3D grid cells. 2. we compute which grid cell a point mass falls into based on its position. 3. we return a float hash key (constructed from (x, y, z) cell indices) for use in the hash map.
+			For function build_spatial_map, we clear and repopulate the hash map (map) with each PointMass* added to the bin (hash) corresponding to its position. For self_collide: 1. we check all other point masses in the same hash bin. 2. if any are within 2 * thickness, a repulsion vector is computed and averaged. 3. final correction is applied to pm.position, scaled by 1 / simulation_steps.</p>
 
+			<div style="display: flex; flex-direction: column; align-items: center;">
+				<table style="width: 100%; text-align: center; border-collapse: collapse;">
+					<tr>
+						<td style="text-align: center;">
+							<img src="images/part4_cloth0.png" width="600px"/>
+<!--							<figcaption>Initial self collision</figcaption>-->
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part4_cloth1.png" width="600px"/>
+<!--							<figcaption>Secondary step of self collision</figcaption>-->
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: center;">
+							<img src="images/part4_cloth2.png" width="600px"/>
+<!--							<figcaption>Fully on the floor</figcaption>-->
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part4_cloth3.png" width="600px"/>
+<!--							<figcaption>With 50000ks</figcaption>-->
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: center;">
+							<img src="images/part4_cloth4.png" width="600px"/>
+						</td>
+					</tr>
+				</table>
+			</div>
 		<h2>Part 5: Shaders</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
