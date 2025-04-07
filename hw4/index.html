@@ -206,6 +206,10 @@
 			<p> For function hash_position: 1. we partition space into 3D grid cells. 2. we compute which grid cell a point mass falls into based on its position. 3. we return a float hash key (constructed from (x, y, z) cell indices) for use in the hash map.
 			For function build_spatial_map, we clear and repopulate the hash map (map) with each PointMass* added to the bin (hash) corresponding to its position. For self_collide: 1. we check all other point masses in the same hash bin. 2. if any are within 2 * thickness, a repulsion vector is computed and averaged. 3. final correction is applied to pm.position, scaled by 1 / simulation_steps.</p>
 
+			<br/>
+			<p> With low density and ks, the springs are very weak. With medium density and ks, moderate spring stiffness causes realistic folding. With high density and spring constant, folds are sharp and rigid.</p>
+
+
 			<div style="display: flex; flex-direction: column; align-items: center;">
 				<table style="width: 100%; text-align: center; border-collapse: collapse;">
 					<tr>
@@ -233,6 +237,18 @@
 							<img src="images/part4_cloth4.png" width="600px"/>
 						</td>
 					</tr>
+					<tr><td style="text-align: center;">
+						<img src="images/part5_low.png" width="600px"/>
+						<figcaption>With low density and ks</figcaption>
+					</td>
+						<td style="text-align: center;">
+							<img src="images/part5_med.png" width="600px"/>
+							<figcaption>With medium density and ks</figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="images/part5_hi.png" width="600px"/>
+							<figcaption>With high density and ks</figcaption>
+						</td></tr>
 				</table>
 			</div>
 		<h2>Part 5: Shaders</h2>
